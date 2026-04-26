@@ -1,0 +1,473 @@
+*{ padding: 0%; margin: 0%; box-sizing: border-box; text-decoration: none; list-style: none; font-family:sans-serif } 
+
+header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); background-size: 1210px 1340px; background-position: center center; }
+
+
+.logo{ width: 150px; }
+
+.background{ width: 100%; height: 84vh; border: solid 5px red; margin-top: 95px; background-size: 100% 100%; }
+
+/* Navbar */
+
+
+/* Logo */
+.logo{
+    height: 65px;
+} 
+
+/* Links */
+
+.nav-custom{
+    font-size: 18px;
+    font-weight: 500;
+    color: black !important;
+    margin: 0 10px;
+    position: relative;
+}
+
+/* Hover effect */
+
+.nav-custom::after{
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #48985d;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.nav-custom:hover::after{
+    width: 100%;
+}
+
+/* Search */
+
+.search-box{
+    position: relative;
+}
+
+.search-box input{
+    border: 1px solid #ddd;
+    padding: 6px 30px 6px 10px;
+    border-radius: 20px;
+}
+
+.search-box i{
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    color: gray;
+}
+
+/* Icons */
+
+.icon-nav{
+    font-size: 20px;
+    color: black;
+}
+
+.signin{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.skirt1 {
+  width: 260px;   
+  margin-top: 25%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.collection-card{
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.collection-card img{
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  transition: 0.4s;
+}
+
+.collection-overlay{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.collection-card:hover img{
+  transform: scale(1.1);
+}
+
+.collection-card:hover .collection-overlay{
+  background: rgba(0,0,0,0.8);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* خلفية سوداء للـ menu على الموبايل */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: #000; /* خلفية سوداء */
+    padding: 20px; /* مسافة من الداخل */
+  }
+
+  /* الروابط كلها أبيض وخط جميل */
+  .navbar-collapse .nav-link {
+    color: #fff !important; /* أبيض */
+    font-weight: 500;         /* خط متوسط الوزن */
+    font-size: 18px;          /* حجم الخط */
+    font-family: 'Arial', sans-serif; /* خط نظيف */
+    margin-bottom: 10px;      /* مسافة بين الروابط */
+    transition: color 0.3s;
+  }
+
+  /* تأثير عند المرور بالماوس */
+  .navbar-collapse .nav-link:hover {
+    color: #48985d; /* لون أخضر عند hover */
+  }
+
+  /* البحث وأيقونات الكارت و Sign in */
+  .navbar-collapse .d-flex a,
+  .navbar-collapse .d-flex input {
+    color: #fff !important;
+  }
+
+  .navbar-collapse .d-flex input {
+    background-color: #222;
+    border: 1px solid #444;
+    color: #fff;
+  }
+
+  .navbar-collapse .d-flex input::placeholder {
+    color: #ccc;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* روابط Navbar و Sign in و Cart */
+.navbar-nav .nav-link,
+.sign-link,
+.cart-link {
+    color: #fff; /* أبيض */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover,
+.sign-link:hover,
+.cart-link:hover {
+    color: #48985d; /* أخضر عند hover */
+}
+
+/* البحث */
+.navbar .form-control {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #fff;
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    width: 200px;
+}
+
+.navbar .form-control::placeholder {
+    color: #eee;
+}
+
+/* Mobile menu */
+@media (max-width: 991px){
+  .navbar-collapse {
+    background-color: rgba(0,0,0,0.8); /* شبه شفاف على الموبايل */
+    padding: 20px;
+  }}
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* Links Navbar + Sign in + Cart */
+.navbar-nav .nav-link,
+.sign-link,
+.cart-link {
+    color: #fff; /* أبيض */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none; /* يشيل الخط تحت الكلمات */
+}
+
+/* إلغاء أي تأثير hover أو active */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:active,
+.sign-link:hover,
+.sign-link:focus,
+.sign-link:active,
+.cart-link:hover,
+.cart-link:focus,
+.cart-link:active {
+    color: #fff !important;  /* أبيض ثابت */
+    text-decoration: none;   /* يشيل أي خط */
+}
+
+/* البحث */
+.navbar .form-control {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #fff;
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    width: 200px;
+}
+
+.navbar .form-control::placeholder {
+    color: #eee;
+}
+
+/* Mobile menu */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: rgba(0,0,0,0.8); /* شبه شفاف على الموبايل */
+    padding: 20px;
+  }
+
+  .navbar-collapse .nav-link,
+  .navbar-collapse .sign-link,
+  .navbar-collapse .cart-link {
+    color: #fff !important;
+    font-size: 22px;
+    margin-bottom: 15px;
+    display: block;
+    text-decoration: none; /* يشيل الخط */
+  }
+
+  .navbar-collapse .d-flex input {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid #fff;
+    color: #fff;
+    margin-bottom: 15px;
+  }
+
+  .navbar-collapse .d-flex input::placeholder {
+    color: #eee;
+  }
+}
+
+/* Search bar normal on desktop */
+.navbar .form-control {
+    width: 200px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.collections-title {
+    font-family: 'Playfair Display', serif; /* خط فخم */
+    font-size: 48px;  /* حجم كبير وواضح */
+    letter-spacing: 2px; /* مسافة بين الحروف */
+    color: #fff; /* أبيض */
+    text-transform: uppercase; /* جميع الحروف كبيرة */
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* ظل خفيف يعطي depth */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#sellerForm,
+#sellerForm label,
+#sellerForm h2,
+#sellerForm p,
+.container h2{
+color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*da el css beta3 el categories el fe el home page*/
+.category-link {
+  text-decoration: none;
+  color: white;
+}
+
+.category-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.category-card img {
+  width: 100%;
+  height: 260px;           /* مهم */
+  object-fit: cover;       /* يخلي الصورة تتقص بشكل مظبوط */
+  transition: transform 0.5s ease;
+}
+
+
+/* Overlay */
+.category-text {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+/* Hover effects */
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.category-card:hover img {
+  transform: scale(1.1);
+}
+.category-title {
+  display: inline-block;
+  padding: 10px 25px;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.category-title:hover {
+  background-color: #fff;
+  color: #000;
+  transform: translateY(-2px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

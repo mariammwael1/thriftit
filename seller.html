@@ -1,0 +1,253 @@
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <title>Thriftit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+     <style>
+    body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.2)
+  );
+}
+    </style>
+  </head>
+
+<body>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-transparent" style="z-index:9999;">
+
+  <div class="container-fluid">
+
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold text-white fs-4" href="index.html">
+      Thrift It
+    </a>
+
+    <!-- Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- Links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="women.html">Women</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="men.html">Men</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Return\Exchange Policy</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="seller.html">Sell Your Item</a></li>
+      </ul>
+
+     
+
+    </div>
+  </div>
+
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- FORM -->
+<div class="container mt-5 pt-5">
+
+<h2 class="mb-4">Sell Your Item</h2>
+
+<form id="sellerForm">
+
+<!-- PRODUCT NAME -->
+<input class="form-control mb-2" id="productName" placeholder="Product Name" required>
+
+<!-- CATEGORY -->
+<select class="form-select mb-2" id="productCategory" required>
+  <option value="">Choose Category</option>
+  <option value="Pants">Pants</option>
+  <option value="Jackets">Jackets</option>
+  <option value="Tops">Tops</option>
+  <option value="Shirts">Shirts</option>
+  <option value="Dresses">Dresses</option>
+  <option value="Sweatshirt">Sweatshirt</option>
+  <option value="Shoes">Shoes</option>
+  <option value="Bags">Bags</option>
+</select>
+
+<!-- GENDER -->
+<select class="form-select mb-2" id="productGender" required>
+  <option value="">Choose Gender</option>
+  <option value="Men">Men</option>
+  <option value="Women">Women</option>
+</select>
+
+<!-- CONDITION -->
+<select class="form-select mb-2" id="productCondition" required>
+  <option value="">Choose Condition</option>
+  <option value="New">New</option>
+  <option value="Used">Used</option>
+</select>
+
+<!-- PRICE -->
+<input class="form-control mb-2" id="productPrice" type="number" placeholder="Price" required>
+
+<!-- COLOR -->
+<input class="form-control mb-2" id="productColor" placeholder="Color" required>
+
+<!-- SIZE -->
+<select class="form-select mb-2" id="productSize" required>
+  <option value="">Choose size</option>
+</select>
+
+<!-- EMAIL -->
+<input class="form-control mb-2" id="sellerEmail" readonly>
+
+<!-- IMAGES -->
+<input type="file" class="form-control mb-3" id="productImages" multiple required>
+
+<button class="btn btn-dark w-100">Submit</button>
+
+</form>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+// 🔐 LOGIN CHECK
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (!currentUser) {
+  alert("Please login first ❌");
+  window.location.href = "login.html";
+}
+
+// 📧 AUTO EMAIL
+document.getElementById("sellerEmail").value = currentUser.email;
+
+
+// ================= SIZE LOGIC =================
+const category = document.getElementById("productCategory");
+const size = document.getElementById("productSize");
+
+category.addEventListener("change", function(){
+
+  size.innerHTML = `<option value="">Choose size</option>`;
+  size.disabled = false;
+
+  // CLOTHES
+  if (["Pants","Jackets","Tops","Shirts","Dresses","Sweatshirt"].includes(category.value)) {
+    ["XS","S","M","L","XL","XXL","XXXL"].forEach(s=>{
+      size.innerHTML += `<option>${s}</option>`;
+    });
+  }
+
+  // SHOES
+  else if (category.value === "Shoes") {
+    for(let i=36;i<=45;i++){
+      size.innerHTML += `<option>${i}</option>`;
+    }
+  }
+
+  // BAGS
+  else if (category.value === "Bags") {
+    size.innerHTML = `<option>No size needed</option>`;
+    size.disabled = true;
+  }
+
+});
+
+
+// ================= SUBMIT =================
+document.getElementById("sellerForm").addEventListener("submit", function(e){
+e.preventDefault();
+
+let imagesInput = document.getElementById("productImages");
+
+// 🔥 minimum 2 images
+if(imagesInput.files.length < 2){
+  alert("Upload at least 2 images ❌");
+  return;
+}
+
+let images = [];
+
+for(let i=0;i<imagesInput.files.length;i++){
+
+  let reader = new FileReader();
+
+  reader.onload = function(e){
+
+    images.push(e.target.result);
+
+    if(images.length === imagesInput.files.length){
+
+      let products = JSON.parse(localStorage.getItem("products")) || [];
+
+      products.push({
+        id: Date.now(),
+        name: document.getElementById("productName").value,
+        category: document.getElementById("productCategory").value,
+        gender: document.getElementById("productGender").value,
+        condition: document.getElementById("productCondition").value,
+        price: document.getElementById("productPrice").value,
+        color: document.getElementById("productColor").value,
+        size: document.getElementById("productSize").value,
+        email: currentUser.email,
+        images: images,
+        status: "pending"
+      });
+
+      localStorage.setItem("products", JSON.stringify(products));
+
+      alert("Product submitted successfully 🎉");
+
+      sellerForm.reset();
+      document.getElementById("sellerEmail").value = currentUser.email;
+    }
+  }
+
+  reader.readAsDataURL(imagesInput.files[i]);
+}
+
+});
+
+</script>
+
+</body>
+</html>

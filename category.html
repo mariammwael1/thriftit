@@ -1,0 +1,144 @@
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <title>Thriftit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.2)
+      );
+    }
+
+    .page-content {
+      padding-top: 90px;
+    }
+
+    .category-title {
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .card img {
+      height: 250px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-transparent" style="z-index:9999;">
+  <div class="container-fluid">
+
+    <a class="navbar-brand fw-bold text-white fs-4" href="index.html">
+      Thrift It
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="women.html">Women</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="men.html">Men</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Return/Exchange Policy</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="seller.html">Sell Your Item</a></li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<div class="container page-content">
+
+  <div class="text-center mb-4">
+    <div id="categoryTitle" class="category-title"></div>
+  </div>
+
+  <div class="row" id="productsContainer"></div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type");
+
+document.getElementById("categoryTitle").innerText = type || "";
+
+const products = JSON.parse(localStorage.getItem("products")) || [];
+const container = document.getElementById("productsContainer");
+
+products.forEach((product, index) => {
+
+  if (product.status === "approved" && product.category === type) {
+
+    let carouselId = `carousel-${index}`;
+
+    let carouselInner = product.images.map((img, i) => `
+      <div class="carousel-item ${i === 0 ? "active" : ""}">
+        <img src="${img}" class="d-block w-100">
+      </div>
+    `).join("");
+
+    let card = document.createElement("div");
+    card.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+
+    card.innerHTML = `
+      <div class="card">
+
+        <div id="${carouselId}" class="carousel slide" data-bs-ride="false">
+          <div class="carousel-inner">
+            ${carouselInner}
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+
+          <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+
+        <div class="card-body">
+
+          <h5 class="fw-bold">${product.name}</h5>
+          <p class="text-muted">${product.price} EGP</p>
+
+          <p style="font-size:14px;">Color: ${product.color || "N/A"}</p>
+          <p style="font-size:14px;">Size: ${product.size || "N/A"}</p>
+
+          <a href="product.html?id=${product.id}" class="btn btn-dark w-100">
+            View Product
+          </a>
+
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+  }
+});
+</script>
+
+<script src="script/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search</title>
+
+  <link rel="stylesheet" href="style/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.2)
+      );
+      min-height: 100vh;
+      margin: 0;
+      padding-top: 80px; /* نفس women */
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-transparent">
+  <div class="container-fluid">
+    
+<!-- Navbar Brand / Logo -->
+<a class="navbar-brand fw-bold text-white fs-4" href="index.html">
+  Thrift It
+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
+        <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Return\Exchange Policy</a></li>
+        <li class="nav-item"><a class="nav-link" href="file:///C:/Users/hp/Desktop/GRAD-PROJECT/seller.html">Sell Your Item</a></li>
+      </ul>
+      <!-- right side -->
+      <div class="d-flex align-items-center gap-3">
+
+        <form class="d-flex" onsubmit="goToSearch(event)">
+          <input class="form-control me-2" type="search" placeholder="Search" id="searchInput">
+          <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+
+        <a href="cart.html" class="cart-link" style="color: white;">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </a>
+
+        <!-- 🔥 NEW: AUTH SECTION -->
+        <a href="login.html" id="loginBtn" class="btn btn-outline-light btn-sm">Login</a>
+        <a href="signup.html" id="signupBtn" class="btn btn-light btn-sm">Sign Up</a>
+
+        <span id="username" style="color:white; display:none;"></span>
+
+        <button onclick="logout()" id="logoutBtn" class="btn btn-danger btn-sm" style="display:none;">
+          Logout
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- SCRIPT bta3 el navbar -->
+<script>
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+let loginBtn = document.getElementById("loginBtn");
+let signupBtn = document.getElementById("signupBtn");
+let logoutBtn = document.getElementById("logoutBtn");
+let username = document.getElementById("username");
+
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+if (currentUser) {
+  loginBtn.style.display = "none";
+  signupBtn.style.display = "none";
+
+  logoutBtn.style.display = "inline-block";
+
+  username.style.display = "inline-block";
+  username.innerText = "Hi, " + currentUser.name;
+} else {
+  loginBtn.style.display = "inline-block";
+  signupBtn.style.display = "inline-block";
+
+  logoutBtn.style.display = "none";
+  username.style.display = "none";
+}
+</script>
+
+
+<!-- نفس layout بتاع women -->
+<div class="container mt-0 pt-3">
+  <div class="row" id="results"></div>
+</div>
+
+<script>
+function goToSearch(e){
+  e.preventDefault();
+  const val = document.getElementById("searchInput").value;
+  window.location.href = "search.html?query=" + val;
+}
+
+const params = new URLSearchParams(window.location.search);
+const query = params.get("query")?.toLowerCase() || "";
+
+const products = JSON.parse(localStorage.getItem("products")) || [];
+const container = document.getElementById("results");
+
+// لو مفيش results
+let found = false;
+
+products.forEach((product, index) => {
+
+  let name = product.name?.toLowerCase() || "";
+  let category = product.category?.toLowerCase() || "";
+
+  if (
+    product.status === "approved" &&
+    (
+      query === "" ||
+      name.includes(query) ||
+      category.includes(query)
+    )
+  ) {
+
+    found = true;
+
+    let carouselId = `search-carousel-${index}`;
+
+    let carouselInner = product.images.map((img, i) => `
+      <div class="carousel-item ${i === 0 ? 'active' : ''}">
+        <img src="${img}" class="d-block w-100" alt="${product.name}">
+      </div>
+    `).join('');
+
+    let card = document.createElement("div");
+    card.className = "col-12 col-sm-6 col-md-6 col-lg-3 mb-4";
+
+    card.innerHTML = `
+      <div class="card">
+
+        <div id="${carouselId}" class="carousel slide" data-bs-interval="false">
+          <div class="carousel-inner">
+            ${carouselInner}
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+
+          <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+
+        <div class="card-body">
+
+          <span class="badge bg-dark mb-2">${product.category}</span>
+
+          <h5 class="fw-bold">${product.name}</h5>
+
+          <p class="text-muted">${product.price} EGP</p>
+
+          <p>Color: ${product.color}</p>
+          <p>Size: ${product.size}</p>
+
+          <a href="product.html?id=${product.id}" class="btn btn-dark w-100">
+            View Product
+          </a>
+
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  }
+});
+
+// لو مفيش أي نتيجة
+if (!found) {
+  container.innerHTML = `
+    <div class="d-flex flex-column justify-content-center align-items-center text-white mt-5" style="min-height:300px;">
+
+      <div style="font-size:60px;">🛍️</div>
+
+      <h3 class="mt-3 fw-bold">No results found</h3>
+
+      <p class="text-light opacity-75">
+        Try searching with different keywords
+      </p>
+
+      <a href="index.html" class="btn btn-light mt-2">
+        Back to Home
+      </a>
+
+    </div>
+  `;
+}
+</script>
+
+<script src="script/bootstrap.min.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html> 
