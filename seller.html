@@ -24,6 +24,20 @@
   </head>
 
 <body>
+  <!-- Bootstrap Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+
+  <div id="liveToast" class="toast align-items-center text-bg-dark border-0">
+    <div class="d-flex">
+      <div class="toast-body" id="toast-msg"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+
+</div>
+
+
+  <!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-transparent" style="z-index:9999;">
 
   <div class="container-fluid">
@@ -45,7 +59,6 @@
         <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="women.html">Women</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="men.html">Men</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">Return\Exchange Policy</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="seller.html">Sell Your Item</a></li>
       </ul>
 
@@ -99,14 +112,15 @@
 <!-- CATEGORY -->
 <select class="form-select mb-2" id="productCategory" required>
   <option value="">Choose Category</option>
-  <option value="Pants">Pants</option>
-  <option value="Jackets">Jackets</option>
-  <option value="Tops">Tops</option>
-  <option value="Shirts">Shirts</option>
-  <option value="Dresses">Dresses</option>
-  <option value="Sweatshirt">Sweatshirt</option>
-  <option value="Shoes">Shoes</option>
-  <option value="Bags">Bags</option>
+  <option value="pants">Pants</option>
+  <option value="jackets">Jackets</option>
+  <option value="tops">Tops</option>
+  <option value="shirts">Shirts</option>
+  <option value="dresses">Dresses</option>
+  <option value="sweatshirt">Sweatshirt</option>
+  <option value="shoes">Shoes</option>
+  <option value="bags">Bags</option>
+  <option value="skirts">Skirts</option>
 </select>
 
 <!-- GENDER -->
@@ -148,12 +162,22 @@
 
 <!-- SCRIPT -->
 <script>
+// Show Bootstrap Toast instead of alert()
+function showToast(message) {
+  const toastEl = document.getElementById('liveToast');
+  const toastMsg = document.getElementById('toast-msg');
+
+  toastMsg.innerText = message;
+
+  const toast = new bootstrap.Toast(toastEl);
+  toast.show();
+}
 
 // 🔐 LOGIN CHECK
 let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 if (!currentUser) {
-  alert("Please login first ❌");
+  showToast("Please login first ❌");
   window.location.href = "login.html";
 }
 
@@ -162,33 +186,47 @@ document.getElementById("sellerEmail").value = currentUser.email;
 
 
 // ================= SIZE LOGIC =================
-const category = document.getElementById("productCategory");
-const size = document.getElementById("productSize");
+document.addEventListener("DOMContentLoaded", function () {
 
-category.addEventListener("change", function(){
+  const category = document.getElementById("productCategory");
+  const size = document.getElementById("productSize");
 
-  size.innerHTML = `<option value="">Choose size</option>`;
-  size.disabled = false;
+  category.addEventListener("change", function () {
 
-  // CLOTHES
-  if (["Pants","Jackets","Tops","Shirts","Dresses","Sweatshirt"].includes(category.value)) {
-    ["XS","S","M","L","XL","XXL","XXXL"].forEach(s=>{
-      size.innerHTML += `<option>${s}</option>`;
-    });
-  }
+    const value = (category.value || "").trim().toLowerCase();
 
-  // SHOES
-  else if (category.value === "Shoes") {
-    for(let i=36;i<=45;i++){
-      size.innerHTML += `<option>${i}</option>`;
+    console.log("selected category:", value);
+
+    size.innerHTML = `<option value="">Choose size</option>`;
+    size.disabled = false;
+
+    const clothes = ["pants","jackets","tops","shirts","dresses","sweatshirt","skirts"];
+
+    if (clothes.includes(value)) {
+      size.disabled = false;
+      ["XS","S","M","L","XL","XXL","XXXL"].forEach(s => {
+        size.innerHTML += `<option value="${s}">${s}</option>`;
+      });
     }
-  }
 
-  // BAGS
-  else if (category.value === "Bags") {
-    size.innerHTML = `<option>No size needed</option>`;
-    size.disabled = true;
-  }
+    else if (value === "shoes") {
+      size.disabled = false;
+      for (let i = 36; i <= 45; i++) {
+        size.innerHTML += `<option value="${i}">${i}</option>`;
+      }
+    }
+
+    else if (value === "bags") {
+      size.innerHTML = `<option value="no size">No size required</option>`;
+      size.disabled = true;
+    }
+
+    else {
+      size.innerHTML = `<option value="">Choose size</option>`;
+      size.disabled = true;
+    }
+
+  });
 
 });
 
@@ -201,7 +239,7 @@ let imagesInput = document.getElementById("productImages");
 
 // 🔥 minimum 2 images
 if(imagesInput.files.length < 2){
-  alert("Upload at least 2 images ❌");
+  showToast("Upload at least 2 images ❌");
   return;
 }
 
@@ -220,22 +258,22 @@ for(let i=0;i<imagesInput.files.length;i++){
       let products = JSON.parse(localStorage.getItem("products")) || [];
 
       products.push({
-        id: Date.now(),
-        name: document.getElementById("productName").value,
-        category: document.getElementById("productCategory").value,
-        gender: document.getElementById("productGender").value,
-        condition: document.getElementById("productCondition").value,
-        price: document.getElementById("productPrice").value,
-        color: document.getElementById("productColor").value,
-        size: document.getElementById("productSize").value,
-        email: currentUser.email,
-        images: images,
-        status: "pending"
-      });
+  id: Date.now(),
+  name: document.getElementById("productName").value.trim(),
+  category: document.getElementById("productCategory").value.trim(),
+  gender: document.getElementById("productGender").value.trim(),
+  condition: document.getElementById("productCondition").value,
+  price: document.getElementById("productPrice").value,
+  color: document.getElementById("productColor").value.trim(),
+  size: document.getElementById("productSize").value,
+  email: currentUser.email,
+  images: images,
+  status: "pending"
+});
 
       localStorage.setItem("products", JSON.stringify(products));
 
-      alert("Product submitted successfully 🎉");
+      showToast("Product submitted successfully 🎉");
 
       sellerForm.reset();
       document.getElementById("sellerEmail").value = currentUser.email;
@@ -248,6 +286,6 @@ for(let i=0;i<imagesInput.files.length;i++){
 });
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

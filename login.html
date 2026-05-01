@@ -24,6 +24,22 @@
 
 </head>
 <body>
+    <!-- Bootstrap Toast Notification -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+
+  <div id="liveToast" class="toast align-items-center text-bg-dark border-0">
+    <div class="d-flex">
+      <div class="toast-body" id="toast-msg"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
 <!-- Navbar -->
 <nav class="fixed-top navbar navbar-expand-lg" style="background-color: transparent;">
   <div class="container-fluid">
@@ -145,6 +161,22 @@
 
 
 <script>
+   // This function shows a Bootstrap toast notification instead of using alert()
+function showToast(message) {
+  const toastEl = document.getElementById('liveToast');
+  const toastMsg = document.getElementById('toast-msg');
+
+  toastMsg.innerText = message;
+
+  const toast = new bootstrap.Toast(toastEl);
+  toast.show();
+}
+
+
+
+
+
+
 document.getElementById("loginForm").addEventListener("submit", function(e){
   e.preventDefault();
 
@@ -153,7 +185,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
 
   // validation
   if (email === "" || password === "") {
-    alert("Please fill all fields");
+    showToast("Please fill all fields");
     return;
   }
 
@@ -163,16 +195,25 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
   let foundUser = users.find(u => u.email === email && u.password === password);
 
   if (foundUser) {
-    alert("Login successful ✅");
+    showToast("Login successful ✅");
 
     // save current user
     localStorage.setItem("currentUser", JSON.stringify(foundUser));
 
     window.location.href = "index.html";
   } else {
-    alert("Invalid email or password ❌");
+    showToast("Invalid email or password ❌");
   }
 });
+
+
+
+
+
+
+
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
