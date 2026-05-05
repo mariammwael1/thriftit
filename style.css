@@ -74,40 +74,10 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
     font-weight: 500;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .skirt1 {
   width: 260px;   
   margin-top: 25%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .collection-card{
   position: relative;
@@ -140,16 +110,6 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
 .collection-card:hover .collection-overlay{
   background: rgba(0,0,0,0.8);
 }
-
-
-
-
-
-
-
-
-
-
 
 /* خلفية سوداء للـ menu على الموبايل */
 @media (max-width: 991px) {
@@ -190,17 +150,6 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /* روابط Navbar و Sign in و Cart */
 .navbar-nav .nav-link,
 .sign-link,
@@ -238,22 +187,6 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
     background-color: rgba(0,0,0,0.8); /* شبه شفاف على الموبايل */
     padding: 20px;
   }}
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
  /* Links Navbar + Sign in + Cart */
 .navbar-nav .nav-link,
@@ -331,22 +264,6 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
     width: 200px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .collections-title {
     font-family: 'Playfair Display', serif; /* خط فخم */
     font-size: 48px;  /* حجم كبير وواضح */
@@ -356,20 +273,6 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
     text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* ظل خفيف يعطي depth */
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #sellerForm,
 #sellerForm label,
 #sellerForm h2,
@@ -377,16 +280,6 @@ header{height: 100vh;width: 100%; background-image: url(images/omarr.avif); back
 .container h2{
 color: white;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*da el css beta3 el categories el fe el home page*/
 .category-link {
